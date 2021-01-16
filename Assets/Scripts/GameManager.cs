@@ -44,6 +44,13 @@ public class GameManager : MonoBehaviour {
         get { return SoundEffectSubject; }
     }
 
+    Subject<string> MessageEffectSubject = new Subject<string>();
+
+    // イベントを検知するオブザーバーを追加
+    public IObservable<string> OnMessageEffect {
+        get { return MessageEffectSubject; }
+    }
+
     void OnEnable() {
         Music = this.GetComponent<AudioSource>();
         // 追加した変数に値をセット
@@ -52,8 +59,8 @@ public class GameManager : MonoBehaviour {
         isPlaying = false;
         GoIndex = 0;
 
-        CheckRange = 120; // 追加
-        BeatRange = 80; // 追加
+        CheckRange = 100; // 追加
+        BeatRange = 50; // 追加
 
         Play.onClick
             .AsObservable()
@@ -81,7 +88,7 @@ public class GameManager : MonoBehaviour {
                 SoundEffectSubject.OnNext("don");
         });
 
-        // 追加
+
         this.UpdateAsObservable()
             .Where(_ => isPlaying)
             .Where(_ => (Input.GetKeyDown(KeyCode.D) | Input.GetKeyDown(KeyCode.K)))
@@ -150,10 +157,12 @@ public class GameManager : MonoBehaviour {
             if(minDiff < BeatRange & Notes[minDiffIndex].GetComponent<NoteController>().getType() == type) {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
+                MessageEffectSubject.OnNext("perfect");
                 //Debug.Log("beat " + type + " success.");
             } else {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
+                MessageEffectSubject.OnNext("failure");
                 //Debug.Log("beat " + type + " failure.");
             }
         } else {
