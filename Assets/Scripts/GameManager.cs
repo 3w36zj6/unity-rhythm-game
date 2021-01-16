@@ -38,6 +38,12 @@ public class GameManager : MonoBehaviour {
     int BPM;
     List<GameObject> Notes;
 
+    Subject<string> SoundEffectSubject = new Subject<string>();
+
+    public IObservable<string> OnSoundEffect {
+        get { return SoundEffectSubject; }
+    }
+
     void OnEnable() {
         Music = this.GetComponent<AudioSource>();
         // 追加した変数に値をセット
@@ -71,7 +77,8 @@ public class GameManager : MonoBehaviour {
             .Where(_ => isPlaying)
             .Where(_ => (Input.GetKeyDown(KeyCode.F) | Input.GetKeyDown(KeyCode.J)))
             .Subscribe(_ => {
-            beat("don", Time.time * 1000 - PlayTime);
+                beat("don", Time.time * 1000 - PlayTime);
+                SoundEffectSubject.OnNext("don");
         });
 
         // 追加
@@ -79,7 +86,8 @@ public class GameManager : MonoBehaviour {
             .Where(_ => isPlaying)
             .Where(_ => (Input.GetKeyDown(KeyCode.D) | Input.GetKeyDown(KeyCode.K)))
             .Subscribe(_ => {
-            beat("ka", Time.time * 1000 - PlayTime);
+                beat("ka", Time.time * 1000 - PlayTime);
+                SoundEffectSubject.OnNext("ka");
         });
 
     }
