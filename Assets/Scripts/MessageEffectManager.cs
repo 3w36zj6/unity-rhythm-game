@@ -29,23 +29,23 @@ public class MessageEffectManager : MonoBehaviour {
     }
 
     void perfectShow() {
-        Perfect.SetActive(false);
+        //Perfect.SetActive(false);
         Perfect.SetActive(true);
 
-        Observable.Timer(TimeSpan.FromMilliseconds(200))
+        Observable.Timer(TimeSpan.FromMilliseconds(100))
             .Subscribe(_ => Perfect.SetActive(false));
     }
 
     void goodShow() {
-        Good.SetActive(false);
+        //Good.SetActive(false);
         Good.SetActive(true);
 
-        Observable.Timer(TimeSpan.FromMilliseconds(200))
+        Observable.Timer(TimeSpan.FromMilliseconds(100))
             .Subscribe(_ => Good.SetActive(false));
     }
 
     void failureShow() {
-        Failure.SetActive(false);
+        //Failure.SetActive(false);
         Failure.SetActive(true);
 
         Observable.Timer(TimeSpan.FromMilliseconds(200))

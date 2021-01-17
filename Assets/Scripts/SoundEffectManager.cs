@@ -22,12 +22,12 @@ public class SoundEffectManager : MonoBehaviour {
     }
 
     void donPlay() {
-        DonPlayer.Stop();
+        //DonPlayer.Stop();
         DonPlayer.Play();
     }
 
     void kaPlay() {
-        KaPlayer.Stop();
+        //KaPlayer.Stop();
         KaPlayer.Play();
     }
 }

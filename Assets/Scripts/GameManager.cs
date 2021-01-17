@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
     void OnEnable() {
         Music = this.GetComponent<AudioSource>();
         Distance = Math.Abs(BeatPoint.position.x - SpawnPoint.position.x);
-        During = 2 * 1000;
+        During = 1750;
         isPlaying = false;
         GoIndex = 0;
 
