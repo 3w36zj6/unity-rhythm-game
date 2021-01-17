@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] Button Play;
     [SerializeField] Button SetChart;
+    [SerializeField] Text ScoreText;
+    [SerializeField] Text ComboText;
+    [SerializeField] Text TitleText;
 
     [SerializeField] GameObject Red;
     [SerializeField] GameObject Blue;
@@ -23,7 +26,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] Transform BeatPoint;
 
     AudioSource Music;
-    //　ノーツを動かすために必要になる変数を追加
+    // ノーツを動かすために必要になる変数を追加
     float PlayTime;
     float Distance;
     float During;
@@ -33,6 +36,13 @@ public class GameManager : MonoBehaviour {
     float CheckRange;// 判定範囲
     float BeatRange;
     List<float> NoteTimings;
+
+    float ComboCount;
+    float Score;
+    float ScoreFirstTerm;
+    float ScoreTorerance;
+    float ScoreCeilingPoint;
+    int CheckTimingIndex;
 
     string Title;
     int BPM;
@@ -53,14 +63,16 @@ public class GameManager : MonoBehaviour {
 
     void OnEnable() {
         Music = this.GetComponent<AudioSource>();
-        // 追加した変数に値をセット
         Distance = Math.Abs(BeatPoint.position.x - SpawnPoint.position.x);
         During = 2 * 1000;
         isPlaying = false;
         GoIndex = 0;
 
-        CheckRange = 100; // 追加
-        BeatRange = 50; // 追加
+        CheckRange = 100;
+        BeatRange = 50;
+
+        //ScoreCeilingPoint = 1050000;
+        CheckTimingIndex = 0;
 
         Play.onClick
             .AsObservable()
@@ -82,11 +94,28 @@ public class GameManager : MonoBehaviour {
 
         this.UpdateAsObservable()
             .Where(_ => isPlaying)
+            .Where(_ => Notes.Count > CheckTimingIndex)
+            .Where(_ => NoteTimings[CheckTimingIndex] == -1)
+            .Subscribe(_ => CheckTimingIndex++);
+
+
+        this.UpdateAsObservable()
+            .Where(_ => isPlaying)
+            .Where(_ => Notes.Count > CheckTimingIndex)
+            .Where(_ => NoteTimings[CheckTimingIndex] != -1)
+            .Where(_ => NoteTimings[CheckTimingIndex] < ((Time.time * 1000 - PlayTime) - CheckRange/2))
+            .Subscribe(_ => {
+                updateScore("failure");
+                CheckTimingIndex++;
+            });
+
+        this.UpdateAsObservable()
+            .Where(_ => isPlaying)
             .Where(_ => (Input.GetKeyDown(KeyCode.F) | Input.GetKeyDown(KeyCode.J)))
             .Subscribe(_ => {
                 beat("don", Time.time * 1000 - PlayTime);
                 SoundEffectSubject.OnNext("don");
-        });
+            });
 
 
         this.UpdateAsObservable()
@@ -95,7 +124,7 @@ public class GameManager : MonoBehaviour {
             .Subscribe(_ => {
                 beat("ka", Time.time * 1000 - PlayTime);
                 SoundEffectSubject.OnNext("ka");
-        });
+            });
 
     }
 
@@ -128,6 +157,9 @@ public class GameManager : MonoBehaviour {
             Notes.Add(Note);
             NoteTimings.Add(timing);
         }
+        TitleText.text = Title;
+
+
     }
 
     // ゲーム開始時に追加した変数に値をセット
@@ -158,15 +190,30 @@ public class GameManager : MonoBehaviour {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
                 MessageEffectSubject.OnNext("perfect");
+                updateScore("perfect");
                 //Debug.Log("beat " + type + " success.");
             } else {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
                 MessageEffectSubject.OnNext("failure");
+                updateScore("failure");
                 //Debug.Log("beat " + type + " failure.");
             }
         } else {
             //Debug.Log("through");
         }
+    }
+    void updateScore(string result) {
+        if(result == "perfect") {
+            ComboCount++;
+            Score += 100;
+        } else if (result == "failure") {
+            ComboCount = 0;
+        } else {
+            ComboCount = 0; // default failure
+        }
+
+        ComboText.text = ComboCount.ToString();
+        ScoreText.text = Score.ToString();
     }
 }

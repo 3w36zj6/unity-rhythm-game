@@ -795,6 +795,9 @@ MonoBehaviour:
   ClipPath: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC/maou_short_14_shining_star"
   Play: {fileID: 533052680}
   SetChart: {fileID: 703972024}
+  ScoreText: {fileID: 645109992}
+  ComboText: {fileID: 1951797743}
+  TitleText: {fileID: 1040093340}
   Red: {fileID: 3070819408948394448, guid: 001901f17a174c049bbd98fee7de639d, type: 3}
   Blue: {fileID: 2248710551318331858, guid: 67641b36e3c6acf40971e49cf75c0ed6, type: 3}
   SpawnPoint: {fileID: 1239381367}
@@ -825,7 +828,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.659
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1268,7 +1271,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1940083148}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3421,8 +3424,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1951797742}
   - {fileID: 645109991}
+  - {fileID: 1951797742}
   m_Father: {fileID: 845580605}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3461,7 +3464,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1940083148}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
