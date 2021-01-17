@@ -1144,8 +1144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a05df58c2745734eb33570be012279c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FilePath: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC/\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC"
-  ClipPath: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC/maou_short_14_shining_star"
+  FilePath: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC/chart"
   SetChart: {fileID: 703972024}
   ScoreText: {fileID: 645109992}
   ComboText: {fileID: 1951797743}
@@ -1156,6 +1155,7 @@ MonoBehaviour:
   BeatPoint: {fileID: 110161815}
   SelectBackGround: {fileID: 227708545}
   ScoreArea: {fileID: 1940083147}
+  SelectMusic: {fileID: 1665072434}
 --- !u!4 &375995380
 Transform:
   m_ObjectHideFlags: 0
@@ -4279,7 +4279,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC"
       m_Image: {fileID: 0}
-    - m_Text: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC(Inst Ver.)"
+    - m_Text: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC (Inst Ver.)"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

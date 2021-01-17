@@ -10,9 +10,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-    [SerializeField] string FilePath;
-    [SerializeField] string ClipPath;
-
     //[SerializeField] Button Play;
     [SerializeField] Button SetChart;
     [SerializeField] Text ScoreText;
@@ -27,10 +24,10 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] GameObject SelectBackGround;
     [SerializeField] GameObject ScoreArea;
-    //[SerializeField] Dropdown SelectMusic;
+    [SerializeField] Dropdown SelectMusic;
 
     AudioSource Music;
-    // ノーツを動かすために必要になる変数を追加
+
     float PlayTime;
     float Distance;
     float During;
@@ -61,7 +58,6 @@ public class GameManager : MonoBehaviour {
 
     Subject<string> MessageEffectSubject = new Subject<string>();
 
-    // イベントを検知するオブザーバーを追加
     public IObservable<string> OnMessageEffect {
         get { return MessageEffectSubject; }
     }
@@ -82,12 +78,6 @@ public class GameManager : MonoBehaviour {
         //ScoreCeilingPoint = 1050000;
         CheckTimingIndex = 0;
 
-        /*
-        Play.onClick
-            .AsObservable()
-            .Subscribe(_ => play());
-        */
-        //Play.interactable = false;
         ScoreArea.SetActive(false);
 
         SetChart.onClick
@@ -141,11 +131,15 @@ public class GameManager : MonoBehaviour {
     }
 
     void loadChart() {
+        //Debug.Log(SelectMusic.options[SelectMusic.value].text + "/chart");
+        if (SelectMusic.value == 0) {// 選んでいない時
+            return;
+        }
         Notes = new List<GameObject>();
         NoteTimings = new List<float>();
 
-        string jsonText = Resources.Load<TextAsset>(FilePath).ToString();
-        Music.clip = (AudioClip)Resources.Load(ClipPath);
+        string jsonText = Resources.Load<TextAsset>(SelectMusic.options[SelectMusic.value].text + "/chart").ToString();
+        Music.clip = (AudioClip)Resources.Load(SelectMusic.options[SelectMusic.value].text + "/music");
         JsonNode json = JsonNode.Parse(jsonText);
         Title = json["title"].Get<string>();
         BPM = int.Parse(json["bpm"].Get<string>());
@@ -171,14 +165,11 @@ public class GameManager : MonoBehaviour {
         }
         TitleText.text = Title;
 
-        //Play.interactable = true;
-
         play();
 
 
     }
 
-    // ゲーム開始時に追加した変数に値をセット
     void play() {
         Music.Stop();
         Music.Play();
@@ -186,10 +177,6 @@ public class GameManager : MonoBehaviour {
         isPlaying = true;
         SelectBackGround.SetActive(false);
         ScoreArea.SetActive(true);
-        //SelectMusic.SetActive(false);
-        //SetChart.SetActive(false);
-        //ComboText.SetActive(true);
-        //Debug.Log("Game Start!");
     }
 
     void beat(string type, float timing) {
