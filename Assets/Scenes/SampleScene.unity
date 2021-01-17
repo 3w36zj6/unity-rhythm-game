@@ -1144,7 +1144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a05df58c2745734eb33570be012279c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FilePath: "\u30B7\u30E3\u30A4\u30CB\u30F3\u30B0\u30B9\u30BF\u30FC/chart"
   SetChart: {fileID: 703972024}
   ScoreText: {fileID: 645109992}
   ComboText: {fileID: 1951797743}
