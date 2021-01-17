@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour {
     int GoIndex;
 
     float CheckRange;// 判定範囲
-    float BeatRange;
+    float GoodRange;
+    float PerfectRange;
     List<float> NoteTimings;
 
     float ComboCount;
@@ -68,8 +69,9 @@ public class GameManager : MonoBehaviour {
         isPlaying = false;
         GoIndex = 0;
 
-        CheckRange = 100;
-        BeatRange = 50;
+        CheckRange = 180;
+        GoodRange = 100;
+        PerfectRange = 50;
 
         //ScoreCeilingPoint = 1050000;
         CheckTimingIndex = 0;
@@ -185,13 +187,19 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if(minDiff != -1 & minDiff < CheckRange) {
-            if(minDiff < BeatRange & Notes[minDiffIndex].GetComponent<NoteController>().getType() == type) {
+        if (minDiff != -1 & minDiff < CheckRange) {
+            if (minDiff < PerfectRange & Notes[minDiffIndex].GetComponent<NoteController>().getType() == type) {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
                 MessageEffectSubject.OnNext("perfect");
                 updateScore("perfect");
-                //Debug.Log("beat " + type + " success.");
+                //Debug.Log("beat " + type + " perfect.");
+            } else if (minDiff < GoodRange & Notes[minDiffIndex].GetComponent<NoteController>().getType() == type) {
+                NoteTimings[minDiffIndex] = -1;
+                Notes[minDiffIndex].SetActive(false);
+                MessageEffectSubject.OnNext("good");
+                updateScore("good");
+                //Debug.Log("beat " + type + " good.");
             } else {
                 NoteTimings[minDiffIndex] = -1;
                 Notes[minDiffIndex].SetActive(false);
@@ -207,8 +215,9 @@ public class GameManager : MonoBehaviour {
         if(result == "perfect") {
             ComboCount++;
             Score += 100;
-        } else if (result == "failure") {
-            ComboCount = 0;
+        } else if (result == "good") {
+            ComboCount++;
+            Score += 50;
         } else {
             ComboCount = 0; // default failure
         }

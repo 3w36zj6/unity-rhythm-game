@@ -8,6 +8,7 @@ public class MessageEffectManager : MonoBehaviour {
 
     [SerializeField] GameManager GameManager;
     [SerializeField] GameObject Perfect;
+    [SerializeField] GameObject Good;
     [SerializeField] GameObject Failure;
 
     void OnEnable() {
@@ -15,6 +16,11 @@ public class MessageEffectManager : MonoBehaviour {
             .OnMessageEffect
             .Where(result => result == "perfect")
             .Subscribe(result => perfectShow());
+
+        GameManager
+            .OnMessageEffect
+            .Where(result => result == "good")
+            .Subscribe(result => goodShow());
 
         GameManager
             .OnMessageEffect
@@ -28,6 +34,14 @@ public class MessageEffectManager : MonoBehaviour {
 
         Observable.Timer(TimeSpan.FromMilliseconds(200))
             .Subscribe(_ => Perfect.SetActive(false));
+    }
+
+    void goodShow() {
+        Good.SetActive(false);
+        Good.SetActive(true);
+
+        Observable.Timer(TimeSpan.FromMilliseconds(200))
+            .Subscribe(_ => Good.SetActive(false));
     }
 
     void failureShow() {
