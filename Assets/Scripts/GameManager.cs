@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] string FilePath;
     [SerializeField] string ClipPath;
 
-    [SerializeField] Button Play;
+    //[SerializeField] Button Play;
     [SerializeField] Button SetChart;
     [SerializeField] Text ScoreText;
     [SerializeField] Text ComboText;
@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] Transform SpawnPoint;
     [SerializeField] Transform BeatPoint;
+
+    [SerializeField] GameObject SelectBackGround;
+    [SerializeField] GameObject ScoreArea;
+    //[SerializeField] Dropdown SelectMusic;
 
     AudioSource Music;
     // ノーツを動かすために必要になる変数を追加
@@ -62,6 +66,8 @@ public class GameManager : MonoBehaviour {
         get { return MessageEffectSubject; }
     }
 
+
+
     void OnEnable() {
         Music = this.GetComponent<AudioSource>();
         Distance = Math.Abs(BeatPoint.position.x - SpawnPoint.position.x);
@@ -76,9 +82,13 @@ public class GameManager : MonoBehaviour {
         //ScoreCeilingPoint = 1050000;
         CheckTimingIndex = 0;
 
+        /*
         Play.onClick
             .AsObservable()
             .Subscribe(_ => play());
+        */
+        //Play.interactable = false;
+        ScoreArea.SetActive(false);
 
         SetChart.onClick
             .AsObservable()
@@ -161,6 +171,10 @@ public class GameManager : MonoBehaviour {
         }
         TitleText.text = Title;
 
+        //Play.interactable = true;
+
+        play();
+
 
     }
 
@@ -170,7 +184,12 @@ public class GameManager : MonoBehaviour {
         Music.Play();
         PlayTime = Time.time * 1000;
         isPlaying = true;
-        Debug.Log("Game Start!");
+        SelectBackGround.SetActive(false);
+        ScoreArea.SetActive(true);
+        //SelectMusic.SetActive(false);
+        //SetChart.SetActive(false);
+        //ComboText.SetActive(true);
+        //Debug.Log("Game Start!");
     }
 
     void beat(string type, float timing) {
